@@ -10,7 +10,7 @@
                         35
                       {%- elif  __location == "wodc" and sandbox is defined and sandbox == false -%}
                         335
-                      {%- elif __location == "sandbox" -%}
+                      {%- elif __location == "sandbox" or (sandbox is defined and sandbox == true )-%}
                         181
                       {%- endif -%}'
 
