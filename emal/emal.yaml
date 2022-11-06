@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+   
+    email_template_id: '{%- if __location == "adc"  -%}
+                        340
+                      {%- elif __location == "govcloud" -%}
+                        35
+                      {%- elif  __location == "wodc" -%}
+                        335
+                      {%- elif __location == "sandbox" -%}
+                        181
+                      {%- endif -%}'
+
+  tasks:
+    - debug: var=email_template_id                      
