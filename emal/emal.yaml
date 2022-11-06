@@ -4,11 +4,11 @@
 
   vars:
    
-    email_template_id: '{%- if __location == "adc"  -%}
+    email_template_id: '{%- if __location == "adc" and sandbox is defined and sandbox == false -%}
                         340
                       {%- elif __location == "govcloud" -%}
                         35
-                      {%- elif  __location == "wodc" -%}
+                      {%- elif  __location == "wodc" and sandbox is defined and sandbox == false -%}
                         335
                       {%- elif __location == "sandbox" -%}
                         181
