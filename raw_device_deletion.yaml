@@ -1,0 +1,40 @@
+---
+- hosts: all
+  gather_facts: no
+  become: yes
+
+  vars:
+    rawdevice: 'traindbindx6'
+
+  tasks:
+    - name: comment configuration
+      replace:
+        path: /etc/udev/rules.d/60-raw.rules
+        regexp: '^(.*){{rawdevice}}(.*)'
+        replace: '#\1{{rawdevice}}\2'
+        backup: yes
+
+    - name: Get raw device
+      shell: "grep {{ rawdevice }} /etc/udev/rules.d/60-raw.rules | grep ENV | awk '{ print $5}'"
+      register: device_info
+
+    - set_fact:
+        raw_device: "{{ device_info.stdout }}"
+    
+    - name: Unbound the device
+      shell: "raw {{ raw_device }} 0 0"
+
+    - name: List the devices
+      shell: rpm -qa
+      register: device_info
+
+    - name: Fail if still device is listing
+      fail:
+        msg: "device {{ rawdevice }} still present"
+      when: "rawdevice in item"
+      loop: device_info.stdout_lines
+
+    - name: Reload the udev rules
+      shell: |
+        udevadm control --reload-rules
+        udevadm trigger --type=devices --action=change
