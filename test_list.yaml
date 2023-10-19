@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - debug:
+        msg : "{{ item }}"
+      loop: "{{ service_list }}"
