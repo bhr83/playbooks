@@ -4,5 +4,5 @@
 
   tasks:
     - debug:
-        msg : "{{ item }}"
+        msg : "{{ item | type_debug }}"
       loop: "{{ service_list }}"
