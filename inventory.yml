@@ -1,0 +1,12 @@
+---
+ all:
+   vars:
+     ansible_user: testuser
+     ansible_password: testpasswd
+   children:
+     primary_admin:
+       hosts:
+         10.10.10.10
+     engine_group:
+       hosts:
+         20.20.20.2
